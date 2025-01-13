@@ -13,7 +13,7 @@ model = PPO.load("trained/trained_agent_PPO")
 obs = env.reset()
 sum_reward = 0
 
-for i in range(500):    
+for i in range(500):
     action, _state = model.predict(obs, deterministic=True)
     obs, reward, done, info = env.step(action)
     sum_reward += reward
