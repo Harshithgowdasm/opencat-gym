@@ -7,7 +7,7 @@ from opencat_gym_env import OpenCatGymEnv
 from callback_save_best_model import SaveBestModelCallback
 import numpy as np
 
-RL_ALGORITHM = "DDPG"  # ["PPO", "DDPG", "TD3"]
+RL_ALGORITHM = "TD3"  # ["PPO", "DDPG", "TD3"]
 
 if __name__ == "__main__":
     # Set up number of parallel environments
@@ -21,7 +21,9 @@ if __name__ == "__main__":
     save_path = "trained"
 
     # Create the callback to save the best model
-    save_best_callback = SaveBestModelCallback(check_freq=100, save_path=save_path)
+    save_best_callback = SaveBestModelCallback(
+        check_freq=parallel_env, save_path=save_path
+    )
 
     n_actions = env.action_space.shape[0]
     action_noise = NormalActionNoise(

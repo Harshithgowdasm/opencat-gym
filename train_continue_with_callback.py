@@ -24,7 +24,9 @@ if __name__ == "__main__":
     save_path = f"trained/{model_name}"
 
     # Create the callback to save the best model
-    save_best_callback = SaveBestModelCallback(check_freq=80, save_path=save_path)
+    save_best_callback = SaveBestModelCallback(
+        check_freq=parallel_env, save_path=save_path
+    )
 
     # Load model to continue previous training
     model = PPO.load(
