@@ -5,13 +5,23 @@ from stable_baselines3 import PPO, DDPG, TD3
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.env_util import make_vec_env
 from opencat_gym_env import OpenCatGymEnv
+from opencat_step_gym_env import OpenCatStepGymEnv
+
+TASK = "step"  # ["gait", "step"]
 
 # Create OpenCatGym environment from class
 parallel_env = 1
-env = make_vec_env(OpenCatGymEnv, n_envs=parallel_env)
+if TASK == "gait":
+    env = make_vec_env(
+        OpenCatGymEnv, n_envs=parallel_env
+    )
+elif TASK == "step":
+    env = make_vec_env(
+        OpenCatStepGymEnv, n_envs=parallel_env
+    )
 
-RL_ALGORITHM = "DDPG"
-MODEL = "DDPG_1"
+RL_ALGORITHM = "PPO"
+MODEL = "PPO_step_1"
 
 policy_dir = f"trained/{MODEL}"
 

@@ -8,7 +8,7 @@ from opencat_step_gym_env import OpenCatStepGymEnv
 from callback_save_best_model import SaveBestModelCallback
 import numpy as np
 
-RL_ALGORITHM = "PPO"  # ["PPO", "DDPG", "TD3"]
+RL_ALGORITHM = "DDPG"  # ["PPO", "DDPG", "TD3"]
 TASK = "step"  # ["gait", "step"]
 
 if __name__ == "__main__":
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     custom_arch = dict(net_arch=[256, 256])
 
     # Path to save the best model
-    save_path = "trained"
+    save_path = "trained/DDPG_step_1"
 
     # Create the callback to save the best model
     save_best_callback = SaveBestModelCallback(
