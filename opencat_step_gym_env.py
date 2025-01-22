@@ -20,6 +20,12 @@ FAC_SMOOTH_1 = 1.0  # Punish jitter and vibrational movement, 1st order
 FAC_SMOOTH_2 = 1.0  # Punish jitter and vibrational movement, 2nd order
 FAC_CLEARANCE = 0.0  # Factor to enfore foot clearance to PAW_Z_TARGET
 PAW_Z_TARGET = 0.005  # Target height (m) of paw during swing phase
+FAC_LEG_LIFT = 10.0  # Reward for sufficient leg lift to clear the step
+FAC_CLIMB_PROGRESS = (
+    1000.0  # Reward for forward and vertical progress during step climbing
+)
+FAC_BODY_CLEARANCE = 10.0  # Penalty for body scraping against the step
+STEP_HEIGHT = 0.4  # Height of the step the robot must climb
 
 BOUND_ANG = 110  # Joint maximum angle (deg)
 STEP_ANGLE = 11  # Maximum angle (deg) delta per step
@@ -195,7 +201,23 @@ class OpenCatStepGymEnv(gym.Env):
         self.state_robot = np.concatenate((state_ang, state_vel_clip))
         current_position = p.getBasePositionAndOrientation(self.robot_id)[0][0]
 
-        # Penalty and reward
+        # Calculate leg lifting reward to ensure the robot lifts its legs over the step
+        leg_lifting_reward = 0
+        paw_idx = [3, 6, 9, 12]  # Indices of the robot's feet
+        for idx in paw_idx:
+            paw_z_pos = p.getLinkState(self.robot_id, linkIndex=idx)[0][2]
+            if paw_z_pos > STEP_HEIGHT:  # Encourage lifting paws higher than the step
+                leg_lifting_reward += FAC_LEG_LIFT  # Reward for leg lifting
+
+        # Body clearance penalty to ensure the robot avoids scraping the step or ground
+        body_clearance_penalty = 0
+        base_clearance = p.getBasePositionAndOrientation(self.robot_id)[0][2]
+        if (
+            base_clearance < STEP_HEIGHT
+        ):  # Penalize if the body is below the step height
+            body_clearance_penalty += FAC_BODY_CLEARANCE
+
+        # Existing stability, smooth movement, and slipping penalties remain
         smooth_movement = np.sum(
             FAC_SMOOTH_1 * np.abs(joint_angs - joint_angs_prev) ** 2
             + FAC_SMOOTH_2
@@ -210,8 +232,11 @@ class OpenCatStepGymEnv(gym.Env):
         )
 
         movement_forward = current_position - last_position
+
+        # Total reward for step climbing task
         reward = (
             FAC_MOVEMENT * movement_forward
+            + leg_lifting_reward  # Encourage leg lifting to clear the step
             - self.step_counter_session
             / PENALTY_STEPS
             * (
@@ -220,6 +245,7 @@ class OpenCatStepGymEnv(gym.Env):
                 + FAC_CLEARANCE * paw_clearance
                 + FAC_SLIP * paw_slipping**2
                 + FAC_ARM_CONTACT * self.arm_contact
+                + body_clearance_penalty  # Penalize if the body is too low
             )
         )
 
