@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot name="step">
+    <material name="yellow">
+        <color rgba="1 0.7 0 1"/>
+    </material>
+
+        <link name="step_1">
+        <visual>
+            <geometry>
+                <box size="0.5 0.5 0.02"/>
+            </geometry>
+            <material name="yellow">
+                <color rgba="1.0 1.0 0.0 1.0"/>
+            </material>
+            <origin xyz="0.5 0 0.01"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.5 0.5 0.02"/>
+            </geometry>
+            <origin xyz="0.5 0 0.01"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+    <!-- Step 2 -->
+    <link name="step_2">
+        <visual>
+            <geometry>
+                <box size="0.5 0.5 0.02"/>
+            </geometry>
+            <material name="yellow">
+                <color rgba="1.0 1.0 0.0 1.0"/>
+            </material>
+            <origin xyz="0.8 0 0.03"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.5 0.5 0.02"/>
+            </geometry>
+            <origin xyz="0.8 0 0.03"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+
+    <joint name="step_2_joint" type="fixed">
+        <parent link="step_1"/>
+        <child link="step_2"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+
+</robot>
+
