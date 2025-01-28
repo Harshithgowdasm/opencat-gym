@@ -4,13 +4,25 @@ from stable_baselines3 import PPO, DDPG, TD3
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.env_util import make_vec_env
 from opencat_gym_env import OpenCatGymEnv
+from opencat_step_gym_env import OpenCatStepGymEnv
 
 # Create OpenCatGym environment from class
 parallel_env = 1
-env = make_vec_env(OpenCatGymEnv)
+TASK = "gait"  # ["gait", "step"]
+
+# Create OpenCatGym environment from class
+parallel_env = 1
+if TASK == "gait":
+    env = make_vec_env(
+        OpenCatGymEnv, n_envs=parallel_env
+    )
+elif TASK == "step":
+    env = make_vec_env(
+        OpenCatStepGymEnv, n_envs=parallel_env
+    )
 
 RL_ALGORITHM = "TD3"  # ["PPO", "DDPG", "TD3"]
-model_name = "best_model_step_25100_reward_92.476361"
+model_name = "best_tranied_models/best_model_gait_DDPG"
 
 if RL_ALGORITHM == "PPO":
     model = PPO.load(f"trained/{model_name}")

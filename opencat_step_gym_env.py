@@ -269,7 +269,7 @@ class OpenCatStepGymEnv(gym.Env):
 
         urdf_path = "models/"  # "/content/drive/My Drive/opencat-gym-esp32/models/"
         step_id = p.loadURDF(
-            urdf_path + "stairs_step_0.04.urdf",
+            urdf_path + "stairs_step_0.02.urdf",
         )
 
         joint_id = p.createConstraint(

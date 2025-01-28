@@ -1,9 +1,12 @@
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, DDPG, TD3
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
 from opencat_gym_env import OpenCatGymEnv
+from opencat_step_gym_env import OpenCatStepGymEnv
 from callback_save_best_model import SaveBestModelCallback
+from stable_baselines3.common.noise import NormalActionNoise
+import numpy as np
 
 # Create OpenCatGym environment from class and check if structure is correct
 # env = OpenCatGymEnv()
@@ -12,10 +15,20 @@ from callback_save_best_model import SaveBestModelCallback
 model_name = "PPO_2"
 model_path = f"trained/{model_name}/final_model"
 
+TASK = "step"  # ["gait", "step"]
+
 if __name__ == "__main__":
     # Set up number of parallel environments
     parallel_env = 8
-    env = make_vec_env(OpenCatGymEnv, n_envs=parallel_env, vec_env_cls=SubprocVecEnv)
+    if TASK == "gait":
+        env = make_vec_env(
+            OpenCatGymEnv, n_envs=parallel_env, vec_env_cls=SubprocVecEnv
+        )
+
+    elif TASK == "step":
+        env = make_vec_env(
+            OpenCatStepGymEnv, n_envs=parallel_env, vec_env_cls=SubprocVecEnv
+        )
 
     # Define PPO agent with custom network architecture
     custom_arch = dict(net_arch=[256, 256])
