@@ -22,7 +22,7 @@ elif TASK == "step":
     )
 
 RL_ALGORITHM = "TD3"  # ["PPO", "DDPG", "TD3"]
-model_name = "best_tranied_models/best_model_gait_DDPG"
+model_name = "best_tranied_models/best_model_gait_TD3"
 
 if RL_ALGORITHM == "PPO":
     model = PPO.load(f"trained/{model_name}")
