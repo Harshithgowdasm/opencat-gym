@@ -3,10 +3,19 @@ from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
 from stable_baselines3.common.noise import NormalActionNoise
-from opencat_gym_env import OpenCatGymEnv
+import numpy as np
+import sys
+import os
+
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+env_path = os.path.join(parent, "environments")
+print(env_path)
+sys.path.append(env_path)
+
+from opencat_gait_gym_env import OpenCatGaitGymEnv
 from opencat_step_gym_env import OpenCatStepGymEnv
 from callback_save_best_model import SaveBestModelCallback
-import numpy as np
 
 RL_ALGORITHM = "DDPG"  # ["PPO", "DDPG", "TD3"]
 TASK = "step"  # ["gait", "step"]
@@ -17,7 +26,7 @@ if __name__ == "__main__":
 
     if TASK == "gait":
         env = make_vec_env(
-            OpenCatGymEnv, n_envs=parallel_env, vec_env_cls=SubprocVecEnv
+            OpenCatGaitGymEnv, n_envs=parallel_env, vec_env_cls=SubprocVecEnv
         )
 
     elif TASK == "step":
@@ -29,7 +38,7 @@ if __name__ == "__main__":
     custom_arch = dict(net_arch=[256, 256])
 
     # Path to save the best model
-    save_path = "trained/DDPG_step_1"
+    save_path = "../trained/"
 
     # Create the callback to save the best model
     save_best_callback = SaveBestModelCallback(

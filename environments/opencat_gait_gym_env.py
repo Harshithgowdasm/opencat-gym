@@ -39,7 +39,7 @@ LENGTH_JOINT_HISTORY = 30  # Number of steps to store joint angles.
 SIZE_OBSERVATION = LENGTH_JOINT_HISTORY * 8 + 6
 
 
-class OpenCatGymEnv(gym.Env):
+class OpenCatGaitGymEnv(gym.Env):
     """Gymnasium environment (stable baselines 3) for OpenCat robots."""
 
     metadata = {"render.modes": ["human"]}
@@ -265,7 +265,7 @@ class OpenCatGymEnv(gym.Env):
         start_pos = [0, 0, 0.08]
         start_orient = p.getQuaternionFromEuler([0, 0, 0])
 
-        urdf_path = "models/"  # "/content/drive/My Drive/opencat-gym-esp32/models/"
+        urdf_path = "../models/"  # "/content/drive/My Drive/opencat-gym-esp32/models/"
         self.robot_id = p.loadURDF(
             urdf_path + "bittle_esp32.urdf",
             start_pos,

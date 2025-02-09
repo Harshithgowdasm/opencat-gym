@@ -5,7 +5,7 @@ import pybullet_data
 
 
 # Constants to define training and visualisation.
-GUI_MODE = True  # Set "True" to display pybullet in a window
+GUI_MODE = False  # Set "True" to display pybullet in a window
 EPISODE_LENGTH = 250  # Number of steps for one training episode
 MAXIMUM_LENGTH = 1.8e6  # Number of total steps for entire training
 
@@ -293,7 +293,7 @@ class OpenCatStepGymEnv(gym.Env):
         step_orient = p.getQuaternionFromEuler([0, 0, 0])
         step_pos = [0.15, 0, 0]
 
-        urdf_path = "models/"  # "/content/drive/My Drive/opencat-gym-esp32/models/"
+        urdf_path = "../models/"  # "/content/drive/My Drive/opencat-gym-esp32/models/"
         step_id = p.loadURDF(
             urdf_path + "stairs_step_0.02.urdf",
         )

@@ -3,7 +3,16 @@ import pybullet as p
 from stable_baselines3 import PPO, DDPG, TD3
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.env_util import make_vec_env
-from opencat_gym_env import OpenCatGymEnv
+import sys
+import os
+
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+env_path = os.path.join(parent, "environments")
+print(env_path)
+sys.path.append(env_path)
+
+from opencat_gait_gym_env import OpenCatGaitGymEnv
 from opencat_step_gym_env import OpenCatStepGymEnv
 
 # Create OpenCatGym environment from class
@@ -13,25 +22,21 @@ TASK = "gait"  # ["gait", "step"]
 # Create OpenCatGym environment from class
 parallel_env = 1
 if TASK == "gait":
-    env = make_vec_env(
-        OpenCatGymEnv, n_envs=parallel_env
-    )
+    env = make_vec_env(OpenCatGaitGymEnv, n_envs=parallel_env)
 elif TASK == "step":
-    env = make_vec_env(
-        OpenCatStepGymEnv, n_envs=parallel_env
-    )
+    env = make_vec_env(OpenCatStepGymEnv, n_envs=parallel_env)
 
 RL_ALGORITHM = "TD3"  # ["PPO", "DDPG", "TD3"]
-model_name = "best_tranied_models/best_model_gait_TD3"
+model_name = "TD3_gait_best/best_model_TD3"
 
 if RL_ALGORITHM == "PPO":
-    model = PPO.load(f"trained/{model_name}")
+    model = PPO.load(f"../trained/{model_name}")
 
 if RL_ALGORITHM == "DDPG":
-    model = DDPG.load(f"trained/{model_name}")
+    model = DDPG.load(f"../trained/{model_name}")
 
 if RL_ALGORITHM == "TD3":
-    model = TD3.load(f"trained/{model_name}")
+    model = TD3.load(f"../trained/{model_name}")
 
 obs = env.reset()
 sum_reward = 0

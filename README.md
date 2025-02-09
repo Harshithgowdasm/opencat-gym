@@ -16,18 +16,20 @@ To set up the environment and install the necessary dependencies, follow these s
     source venv/bin/activate  
     ```
 3. **Install the required packages::** 
-    ``` python
+    ``` bash
     pip install -r requirements.txt 
     ```
 4. **Start with training:** 
     The training process automatically saves the best models. To train for step climbing, change the Gym environment to o`opencat_step_gym_env.py` and use any RL algorithm supported by Stable-Baselines3.
 
-    ``` python
+    ``` bash
+    cd train
     python train_with_callback.py
     ```
 4. **Visulize the results:** 
     After training, visualize the results using the saved policy models:
-    ``` python
+    ``` bash
+    cd visualize
     python visualize_policy_directory.py
     ```
 
@@ -47,7 +49,7 @@ To set up the environment and install the necessary dependencies, follow these s
 
 
 ## Links
-For more information on the reinforcement training implementation: https://stable-baselines3.readthedocs.io/en/master/index.html \
+For more information on the RL implementation: https://stable-baselines3.readthedocs.io/en/master/index.html \
 And for the simulation environment please refer to: https://pybullet.org/wordpress/ \
 The API for creating the training environment: https://gymnasium.farama.org/
 
