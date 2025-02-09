@@ -1,43 +1,55 @@
 # OpenCat Gym
-A gym reinforcement learning environment for OpenCat robots based on Stable-Baselines3 and PyBullet.
-
-## Simulation and Application
-<img src=animations/trained_agent_playground.gif width="400" /> <img src=animations/application.gif width="400" />
+A reinforcement learning environment for gait generation and step-climbing tasks on the Petoi Bittle quadruped robot. Built using Stable-Baselines3 and PyBullet, OpenCat Gym provides an efficient framework for training and deploying RL policies for autonomous locomotion.
 
 ## Installation and Usage
-Install python packages:
-``` python
-!pip install "stable-baselines3[extra]"
-!pip install pybullet
-```
 
-Start training with 
-``` 
-python train.py 
-```
-To take a look at the pre-trained example, execute 
-``` 
-python enjoy.py
-```
-Alternatively you can run [`opencat-gym.ipyn`](https://github.com/ger01d/opencat-gym/blob/main/opencat-gym.ipynb) in Jupyter notebook and perform training.
+To set up the environment and install the necessary dependencies, follow these steps:
 
-### Playing with training parameters
-The training parameters are listed as constants in the `opencat-gym-env.py`. They change the weight of the reward-function.
-``` python
-PENALTY_STEPS = 2e6       # Increase of penalty by step_counter/PENALTY_STEPS
-FAC_MOVEMENT = 1000.0     # Reward movement in x-direction
-FAC_STABILITY = 0.1       # Punish body roll and pitch velocities
-FAC_Z_VELOCITY = 0.0      # Punish z movement of body
-FAC_SLIP = 0.0            # Punish slipping of paws
-FAC_ARM_CONTACT = 0.01    # Punish crawling on arms and elbows
-FAC_SMOOTH_1 = 1.0        # Punish jitter and vibrational movement, 1st order
-FAC_SMOOTH_2 = 1.0        # Punish jitter and vibrational movement, 2nd order
-FAC_CLEARANCE = 0.0       # Factor to enfore foot clearance to PAW_Z_TARGET
-PAW_Z_TARGET = 0.005      # Target height (m) of paw during swing phase
-```
+1. **Clone the repository:**
+   ``` bash
+   git clone https://github.com/SuchethShenoy/opencat-gym.git
+   cd opencat-gym
+   ```
+2. **Create a virtual environment:** 
+    ``` bash
+    python3 -m venv venv
+    source venv/bin/activate  
+    ```
+3. **Install the required packages::** 
+    ``` bash
+    pip install -r requirements.txt 
+    ```
+4. **Start with training:** 
+    The training process automatically saves the best models. To train for step climbing, change the Gym environment to o`opencat_step_gym_env.py` and use any RL algorithm supported by Stable-Baselines3.
+
+    ``` bash
+    cd train
+    python train_with_callback.py
+    ```
+4. **Visulize the results:** 
+    After training, visualize the results using the saved policy models:
+    ``` bash
+    cd visualize
+    python visualize_policy_directory.py
+    ```
+
+### Results
+**Gait Generation:**  <br />
+<img src=animations/best_model_gait_DDPG.gif width="266" />  <img src=animations/best_model_gait_TD3_.gif width="266" />  <img src=animations/best_model_gait_PPO.gif width="266" />  
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DDPG  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TD3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PPO
+
+**Single Step Climbing:**  <br />
+<img src=animations/best_model_single_step_DDPG.gif width="266" />  <img src=animations/best_model_single_step_TD3.gif width="266" />  <img src=animations/best_model_single_step_PPO.gif width="266" />
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DDPG  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TD3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PPO
+
+**Multi-Step Climbing:**  <br />
+<img src=animations/best_model_double_step_PPO.gif width="400" /> <img src=animations/best_model_triple_step_PPO.gif width="400" />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Double Step Climbing (PPO)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Triple Step Climbing (PPO)
+
+
 
 ## Links
-For more information on the reinforcement training implementation: https://stable-baselines3.readthedocs.io/en/master/index.html \
+For more information on the RL implementation: https://stable-baselines3.readthedocs.io/en/master/index.html \
 And for the simulation environment please refer to: https://pybullet.org/wordpress/ \
 The API for creating the training environment: https://gymnasium.farama.org/
 
