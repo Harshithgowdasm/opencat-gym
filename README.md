@@ -51,8 +51,8 @@ To set up the environment and install the necessary dependencies, follow these s
 ## Links
 For more information on the RL implementation: https://stable-baselines3.readthedocs.io/en/master/index.html \
 And for the simulation environment please refer to: https://pybullet.org/wordpress/ \
-The API for creating the training environment: https://gymnasium.farama.org/
-
+The API for creating the training environment: https://gymnasium.farama.org/ \
+The implementation is extension of https://github.com/ger01d/opencat-gym/tree/main
 ## Related Work
 The reward and penalty functions are based on: https://www.nature.com/articles/s41598-023-38259-7 \
 Including a joint angle history was inspired by: https://www.science.org/doi/10.1126/scirobotics.aau5872
