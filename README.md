@@ -1,4 +1,4 @@
-# OpenCat Gym
+# RL Quadruped Robot
 A reinforcement learning environment for gait generation and step-climbing tasks on the Petoi Bittle quadruped robot. Built using Stable-Baselines3 and PyBullet, OpenCat Gym provides an efficient framework for training and deploying RL policies for autonomous locomotion.
 
 ## Installation and Usage
