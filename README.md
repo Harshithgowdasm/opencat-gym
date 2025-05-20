@@ -7,7 +7,7 @@ To set up the environment and install the necessary dependencies, follow these s
 
 1. **Clone the repository:**
    ``` bash
-   git clone https://github.com/SuchethShenoy/opencat-gym.git
+   git clone https://github.com/Harshithgowdasm/rl-quadruped.git
    cd opencat-gym
    ```
 2. **Create a virtual environment:** 
